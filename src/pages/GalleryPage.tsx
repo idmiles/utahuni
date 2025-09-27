@@ -1,32 +1,35 @@
 import { FC, useState } from 'react';
 
-const GALLERY_IMAGES = [
-  '/img/uni2.jpg',
-  '/img/uni4.jpg',
-  '/img/uni12.jpg',
-  '/img/uni1.jpg',
-  '/img/uni8.jpg',
-  '/img/123_1.JPEG',
-  '/img/IMG_6294.jpg',
-  '/img/IMG_4979.jpg',
-  '/img/IMG_6074.jpg',
-  '/img/uni3.jpg',
-  '/img/uni5.jpg',
-  '/img/uni6.jpg',
-  '/img/uni7.jpg',
-  '/img/uni9.jpg',
-  '/img/uni10.jpg',
-  '/img/uni11.jpg',
-  '/img/uni13.jpg',
-  '/img/uni14.jpg',
-  '/img/uni15.jpg',
-  '/img/uni16.jpg',
-  '/img/uni19.png',
-  '/img/IMG_6260.jpg',
-  '/img/IMG_6153.jpg',
-  '/img/IMG_6215.jpg',
-  '/img/IMG_6192_copy.jpg'
-];
+const IMAGE_EXTENSIONS = new Set([
+  '.jpg',
+  '.jpeg',
+  '.png',
+  '.gif',
+  '.bmp',
+  '.webp',
+  '.svg'
+]);
+
+const galleryImagePaths = Object.keys(
+  import.meta.glob('../../public/gallery/*', {
+    eager: true,
+    import: 'default',
+    query: '?url'
+  })
+);
+
+const GALLERY_IMAGES: string[] = galleryImagePaths
+  .filter((path) => {
+    const extensionIndex = path.lastIndexOf('.');
+    if (extensionIndex === -1) {
+      return false;
+    }
+
+    const extension = path.slice(extensionIndex).toLowerCase();
+    return IMAGE_EXTENSIONS.has(extension);
+  })
+  .map((path) => path.replace('../../public', ''))
+  .sort((a, b) => a.localeCompare(b, undefined, { numeric: true, sensitivity: 'base' }));
 
 const GalleryPage: FC = () => {
   const [activeImage, setActiveImage] = useState<string | null>(null);

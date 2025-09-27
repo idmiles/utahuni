@@ -1,25 +1,25 @@
-import 'bootstrap/dist/css/bootstrap.min.css';
-import './styles/global.css';
+import "bootstrap/dist/css/bootstrap.min.css";
+import "./styles/global.css";
 
-import { createElement } from 'react';
-import { createRoot, type Root } from 'react-dom/client';
-import { LitElement, html, type PropertyDeclarations } from 'lit';
-import type { PropertyValues } from 'lit';
+import { createElement } from "react";
+import { createRoot, type Root } from "react-dom/client";
+import { LitElement, html, type PropertyDeclarations } from "lit";
+import type { PropertyValues } from "lit";
 
-import { ContactPage, GalleryPage, HomePage } from './pages';
-import { createIconElement } from './ui/icons';
+import { ContactPage, GalleryPage, HomePage } from "./pages";
+import { createIconElement } from "./ui/icons";
 
 const ROUTES = {
   home: HomePage,
   gallery: GalleryPage,
-  contact: ContactPage
+  contact: ContactPage,
 } as const;
 
 type RouteKey = keyof typeof ROUTES;
 
 class AppView extends LitElement {
   static properties: PropertyDeclarations = {
-    page: { type: String }
+    page: { type: String },
   };
 
   declare page: RouteKey;
@@ -27,12 +27,14 @@ class AppView extends LitElement {
   private reactRoot?: Root;
 
   private get reactHost(): HTMLDivElement | null {
-    return this.renderRoot?.querySelector<HTMLDivElement>('#react-root') ?? null;
+    return (
+      this.renderRoot?.querySelector<HTMLDivElement>("#react-root") ?? null
+    );
   }
 
   constructor() {
     super();
-    this.page = 'home';
+    this.page = "home";
   }
 
   protected createRenderRoot(): HTMLElement {
@@ -45,7 +47,7 @@ class AppView extends LitElement {
 
   protected updated(changed: PropertyValues<this>): void {
     super.updated(changed);
-    if (changed.has('page')) {
+    if (changed.has("page")) {
       this.renderReact();
     }
   }
@@ -76,7 +78,7 @@ class AppView extends LitElement {
   }
 }
 
-const APP_VIEW_TAG = 'app-view';
+const APP_VIEW_TAG = "app-view";
 
 if (!customElements.get(APP_VIEW_TAG)) {
   customElements.define(APP_VIEW_TAG, AppView);
@@ -84,65 +86,67 @@ if (!customElements.get(APP_VIEW_TAG)) {
 
 declare global {
   interface HTMLElementTagNameMap {
-    'app-view': AppView;
+    "app-view": AppView;
   }
 }
 
 const NAV_ITEMS: Array<{ id: RouteKey; label: string }> = [
-  { id: 'home', label: 'Home' },
-  { id: 'gallery', label: 'Gallery' },
-  { id: 'contact', label: 'Contact' }
+  { id: "home", label: "Home" },
+  { id: "gallery", label: "Gallery" },
+  { id: "contact", label: "Contact" },
 ];
 
-const appShell = document.getElementById('app') ?? (() => {
-  const wrapper = document.createElement('div');
-  document.body.appendChild(wrapper);
-  return wrapper;
-})();
+const appShell =
+  document.getElementById("app") ??
+  (() => {
+    const wrapper = document.createElement("div");
+    document.body.appendChild(wrapper);
+    return wrapper;
+  })();
 
-appShell.id = 'app-shell';
-appShell.classList.add('d-flex', 'flex-column', 'min-vh-100');
+appShell.id = "app-shell";
+appShell.classList.add("d-flex", "flex-column", "min-vh-100");
 
-const appView = document.createElement('app-view') as AppView;
+const appView = document.createElement("app-view") as AppView;
 
 const navLinks = new Map<RouteKey, HTMLAnchorElement>();
 
-const header = document.createElement('header');
-const nav = document.createElement('nav');
-nav.className = 'navbar navbar-expand-lg navbar-dark py-0';
+const header = document.createElement("header");
+const nav = document.createElement("nav");
+nav.className = "navbar navbar-expand-lg navbar-dark py-0";
 
-const navContainer = document.createElement('div');
-navContainer.className = 'container py-2';
+const navContainer = document.createElement("div");
+navContainer.className = "container py-2";
 
-const toggleButton = document.createElement('button');
-toggleButton.type = 'button';
-toggleButton.className = 'navbar-toggler';
-toggleButton.setAttribute('aria-label', 'Toggle navigation');
-toggleButton.setAttribute('aria-expanded', 'false');
+const toggleButton = document.createElement("button");
+toggleButton.type = "button";
+toggleButton.className = "navbar-toggler";
+toggleButton.setAttribute("aria-label", "Toggle navigation");
+toggleButton.setAttribute("aria-expanded", "false");
 
-const toggleIcon = document.createElement('span');
-toggleIcon.className = 'navbar-toggler-icon';
+const toggleIcon = document.createElement("span");
+toggleIcon.className = "navbar-toggler-icon";
 toggleButton.appendChild(toggleIcon);
 
-const navCollapse = document.createElement('div');
-navCollapse.className = 'collapse navbar-collapse justify-content-end';
+const navCollapse = document.createElement("div");
+navCollapse.className = "collapse navbar-collapse justify-content-end";
 
-const navList = document.createElement('ul');
-navList.className = 'navbar-nav align-items-lg-center gap-lg-3';
+const navList = document.createElement("ul");
+navList.className = "navbar-nav align-items-lg-center gap-lg-3";
 
 NAV_ITEMS.forEach(({ id, label }) => {
-  const listItem = document.createElement('li');
-  listItem.className = 'nav-item';
+  const listItem = document.createElement("li");
+  listItem.className = "nav-item";
 
-  const link = document.createElement('a');
-  link.className = 'nav-link clink fw-bold p-2';
+  const link = document.createElement("a");
+  link.className = "nav-link clink fw-bold p-2";
   link.href = `#${id}`;
   link.textContent = label;
-  link.addEventListener('click', (event) => {
+  link.addEventListener("click", (event) => {
     event.preventDefault();
     setRoute(id);
-    navCollapse.classList.remove('show');
-    toggleButton.setAttribute('aria-expanded', 'false');
+    navCollapse.classList.remove("show");
+    toggleButton.setAttribute("aria-expanded", "false");
   });
 
   navLinks.set(id, link);
@@ -151,21 +155,21 @@ NAV_ITEMS.forEach(({ id, label }) => {
 });
 
 navCollapse.appendChild(navList);
-const brand = document.createElement('a');
-brand.className = 'navbar-brand d-flex align-items-center';
-brand.href = '#home';
+const brand = document.createElement("a");
+brand.className = "navbar-brand d-flex align-items-center";
+brand.href = "#home";
 
-const brandLogo = document.createElement('img');
-brandLogo.src = '/img/logo.png';
-brandLogo.alt = 'Utah Unicycle Club Logo';
-brandLogo.className = 'brand-logo';
+const brandLogo = document.createElement("img");
+brandLogo.src = "/img/logo.png";
+brandLogo.alt = "Utah Unicycle Club Logo";
+brandLogo.className = "brand-logo";
 brand.appendChild(brandLogo);
 
-brand.addEventListener('click', (event) => {
+brand.addEventListener("click", (event) => {
   event.preventDefault();
-  setRoute('home');
-  navCollapse.classList.remove('show');
-  toggleButton.setAttribute('aria-expanded', 'false');
+  setRoute("home");
+  navCollapse.classList.remove("show");
+  toggleButton.setAttribute("aria-expanded", "false");
 });
 
 navContainer.appendChild(brand);
@@ -174,62 +178,68 @@ navContainer.appendChild(navCollapse);
 nav.appendChild(navContainer);
 header.appendChild(nav);
 
-const main = document.createElement('main');
+const main = document.createElement("main");
+main.className = "main-content flex-fill";
 main.appendChild(appView);
 
-const footer = document.createElement('footer');
-footer.className = 'footer text-light';
+const footer = document.createElement("footer");
+footer.className = "footer text-light";
 
-const footerContainer = document.createElement('div');
-footerContainer.className = 'container';
+const footerContainer = document.createElement("div");
+footerContainer.className = "container";
 
-const footerRow = document.createElement('div');
-footerRow.className = 'row gy-3 align-items-center';
+const footerRow = document.createElement("div");
+footerRow.className = "row gy-3 align-items-center";
 
-const footerBrandCol = document.createElement('div');
-footerBrandCol.className = 'col-12 col-md';
+const footerBrandCol = document.createElement("div");
+footerBrandCol.className = "col-12 col-md";
 
-const footerBrandLink = document.createElement('a');
-footerBrandLink.href = '#home';
-footerBrandLink.className = 'icon fw-bold fs-5';
-footerBrandLink.textContent = 'Utah Unicycle Club';
-footerBrandLink.addEventListener('click', (event) => {
+const footerBrandLink = document.createElement("a");
+footerBrandLink.href = "#home";
+footerBrandLink.className = "icon fw-bold fs-5";
+footerBrandLink.textContent = "Utah Unicycle Club";
+footerBrandLink.addEventListener("click", (event) => {
   event.preventDefault();
-  setRoute('home');
+  setRoute("home");
 });
 
 footerBrandCol.appendChild(footerBrandLink);
 
-const footerIconsCol = document.createElement('div');
-footerIconsCol.className = 'col-12 col-md d-flex justify-content-center gap-3';
+const footerIconsCol = document.createElement("div");
+footerIconsCol.className = "col-12 col-md d-flex justify-content-center gap-3";
 
-const footerLinks: Array<{ href: string; label: string; icon: Parameters<typeof createIconElement>[0]; onClick?: () => void }> = [
+const footerLinks: Array<{
+  href: string;
+  label: string;
+  icon: Parameters<typeof createIconElement>[0];
+  onClick?: () => void;
+}> = [
   {
-    href: 'https://www.instagram.com/utahuni/',
-    label: 'Instagram',
-    icon: 'instagram'
+    href: "https://www.instagram.com/utahuni/",
+    label: "Instagram",
+    icon: "instagram",
   },
   {
-    href: 'https://discord.com/invite/jCGyGj9hzn',
-    label: 'Discord',
-    icon: 'discord'
+    href: "https://discord.com/invite/jCGyGj9hzn",
+    label: "Discord",
+    icon: "discord",
   },
   {
-    href: '#contact',
-    label: 'Contact',
-    icon: 'envelope',
-    onClick: () => setRoute('contact')
-  }
+    href: "#contact",
+    label: "Contact",
+    icon: "envelope",
+    onClick: () => setRoute("contact"),
+  },
 ];
 
 footerLinks.forEach(({ href, label, icon, onClick }) => {
-  const link = document.createElement('a');
-  link.className = 'icon d-inline-flex';
+  const link = document.createElement("a");
+  link.className = "icon d-inline-flex";
   link.href = href;
-  link.setAttribute('aria-label', label);
+  link.setAttribute("aria-label", label);
 
   if (onClick) {
-    link.addEventListener('click', (event) => {
+    link.addEventListener("click", (event) => {
       event.preventDefault();
       onClick();
     });
@@ -249,17 +259,17 @@ appShell.appendChild(header);
 appShell.appendChild(main);
 appShell.appendChild(footer);
 
-toggleButton.addEventListener('click', () => {
-  const expanded = navCollapse.classList.toggle('show');
-  toggleButton.setAttribute('aria-expanded', expanded ? 'true' : 'false');
+toggleButton.addEventListener("click", () => {
+  const expanded = navCollapse.classList.toggle("show");
+  toggleButton.setAttribute("aria-expanded", expanded ? "true" : "false");
 });
 
 function parseRoute(hash: string): RouteKey {
-  const clean = hash.replace('#', '') as RouteKey;
+  const clean = hash.replace("#", "") as RouteKey;
   if (clean && clean in ROUTES) {
     return clean;
   }
-  return 'home';
+  return "home";
 }
 
 function setRoute(route: RouteKey, fromHash = false): void {
@@ -269,9 +279,9 @@ function setRoute(route: RouteKey, fromHash = false): void {
 
   navLinks.forEach((link, key) => {
     if (key === route) {
-      link.classList.add('activepage');
+      link.classList.add("activepage");
     } else {
-      link.classList.remove('activepage');
+      link.classList.remove("activepage");
     }
   });
 
@@ -280,7 +290,7 @@ function setRoute(route: RouteKey, fromHash = false): void {
   }
 }
 
-window.addEventListener('hashchange', () => {
+window.addEventListener("hashchange", () => {
   setRoute(parseRoute(window.location.hash), true);
 });
 
