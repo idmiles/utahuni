@@ -29,8 +29,11 @@ header {
   background-color: #3095ba !important;
 }
 
-.navbar-brand img {
-  max-height: 72px;
+.navbar-brand img,
+.brand-logo {
+  height: 72px;
+  width: auto;
+  max-width: 112px;
 }
 
 .nav-link {
@@ -267,8 +270,10 @@ app-view {
 }
 
 @media (max-width: 768px) {
-  .navbar-brand img {
-    max-height: 56px;
+  .navbar-brand img,
+  .brand-logo {
+    height: 56px;
+    max-width: 88px;
   }
 
   .page-section {

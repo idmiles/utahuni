@@ -13,12 +13,6 @@ type ContactLink = {
 
 const CONTACT_LINKS: ContactLink[] = [
   {
-    href: 'https://uniusa.org',
-    title: 'Unicycling Society of America',
-    description: 'National resources, membership, and events across the United States.',
-    media: { type: 'image', src: '/img/uniusa.png', alt: 'USA Unicycling society logo', width: 96 }
-  },
-  {
     href: 'https://www.instagram.com/utahuni/',
     title: 'Instagram',
     description: 'See ride recaps, event announcements, and our favorite clips.',

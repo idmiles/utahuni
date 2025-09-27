@@ -158,8 +158,7 @@ brand.href = '#home';
 const brandLogo = document.createElement('img');
 brandLogo.src = '/img/logo.png';
 brandLogo.alt = 'Utah Unicycle Club Logo';
-brandLogo.width = 96;
-brandLogo.height = 96;
+brandLogo.className = 'brand-logo';
 brand.appendChild(brandLogo);
 
 brand.addEventListener('click', (event) => {
